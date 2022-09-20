@@ -39,39 +39,13 @@
 </template>
 
 <script>
+import throttle from "lodash/throttle";
 import common from "@/common.js";
 export default {
     name: "Lunbo",
     props: ["lunboData"],
     data() {
         return {
-            // lunboData: [
-            //     {
-            //         path: require("@/assets/main-lunbo-img/lunbo1.webp"),
-            //         target: "1",
-            //         info: "全都秒了",
-            //     },
-            //     {
-            //         path: require("@/assets/main-lunbo-img/lunbo2.png"),
-            //         target: "2",
-            //         info: "凡人修仙传",
-            //     },
-            //     {
-            //         path: require("@/assets/main-lunbo-img/lunbo3.webp"),
-            //         target: "3",
-            //         info: "不是吧这都能换到！",
-            //     },
-            //     {
-            //         path: require("@/assets/main-lunbo-img/lunbo4.webp"),
-            //         target: "4",
-            //         info: "这个杀手不需要改需求",
-            //     },
-            //     {
-            //         path: require("@/assets/main-lunbo-img/lunbo5.webp"),
-            //         target: "5",
-            //         info: "用图片上首页",
-            //     },
-            // ],
             n: 0,
             timer: null,
             classNameStr: "lunbo-item",
@@ -105,12 +79,12 @@ export default {
             let timeCount = this.lunboData.length;
             let zIndexCount = 150;
             this.timer = setInterval(() => {
-                //设定其实的状态
+                //设定起始的状态
                 if (this.n == 0) {
                     //重写index
                     //写动画
                     this.elemList[0].style.transition = "transform 0.6s";
-                    this.elemList[1].style.zIndex = zIndexCount + this.n + 2;
+                    this.elemList[1].style.zIndex = zIndexCount + this.n + 1;
                     this.elemList[1].style.transition = "transform 0.6s";
                     // 写位置
                     this.elemList[0].style.transform = "translateX(-459px)";
@@ -123,7 +97,7 @@ export default {
                         // 写动画
                         this.elemList[timeCount - 1].style.transition = "none";
                         this.elemList[1].style.zIndex =
-                            zIndexCount + this.n + 2;
+                            zIndexCount + this.n + 1;
                         this.elemList[1].style.transition = "transform 0.6s";
                         //写位置
                         this.elemList[timeCount - 1].style.transform =
@@ -134,11 +108,15 @@ export default {
                             this.indexList[this.n % timeCount],
                             "on-index"
                         );
-                    } else if (this.n % timeCount < timeCount - 1) {
+                    }
+                    // 中间几张的状态
+                    else if (this.n % timeCount < timeCount - 1) {
                         // 写动画
                         this.elemList[this.preIndex].style.transition = "none";
                         this.elemList[this.nextIndex].style.zIndex =
-                            zIndexCount + this.n + 2;
+                            parseInt(
+                                this.elemList[this.nowIndex].style.zIndex
+                            ) + 1;
                         this.elemList[this.nextIndex].style.transition =
                             "transform 0.6s";
                         //写位置
@@ -158,7 +136,9 @@ export default {
                         // 写动画
                         this.elemList[this.preIndex].style.transition = "none";
                         this.elemList[0].style.zIndex =
-                            zIndexCount + this.n + 2;
+                            parseInt(
+                                this.elemList[this.nowIndex].style.zIndex
+                            ) + 1;
                         this.elemList[0].style.transition = "transform 0.6s";
                         // 写位置
                         this.elemList[this.preIndex].style.transform =
@@ -172,12 +152,6 @@ export default {
                             "on-index"
                         );
                     }
-                    // if (this.n % timeCount == timeCount - 1) {
-                    //     for (let i = 1; i < this.elemList.length; i++) {
-                    //         this.elemList[i].className =
-                    //             this.classNameStr + " " + "ready";
-                    //     }
-                    // }
                     if (this.n % timeCount == timeCount - 1) {
                         common.toggleClass(this.indexList[0], "on-index");
                     } else {
@@ -191,7 +165,8 @@ export default {
                 this.n++;
             }, 6000);
         },
-        changeIndex(target) {
+        //防抖
+        changeIndex: throttle(function (target) {
             let zIndexCount = 150;
             // 获得被点击的按键的序号
             let eCount = target.target.getAttribute("index");
@@ -202,22 +177,20 @@ export default {
             if (eCount !== this.nowIndex) {
                 // 向前跳转
                 if (eCount < this.nowIndex) {
-                    // for (let index = 0; index < this.elemList.length; index++) {
-                    // if (index !== eCount) {
                     this.elemList[eCount].style.transform =
                         "translateX(-495px)";
                     this.elemList[eCount].style.transition = "none";
-                    // }
-                    // }
                     //防止动画出错
                     setTimeout(() => {
                         this.elemList[eCount].style.transition =
-                            "transform 0.6s";
+                            "transform 0.5s";
                         this.elemList[this.nowIndex].style.transform =
                             "translateX(495px)";
                         this.elemList[eCount].style.transform = "translateX(0)";
                         this.elemList[eCount].style.zIndex =
-                            zIndexCount + this.n + 2;
+                            parseInt(
+                                this.elemList[this.nowIndex].style.zIndex
+                            ) + 1;
                         common.toggleClass(
                             this.indexList[this.nowIndex],
                             "on-index"
@@ -241,10 +214,10 @@ export default {
                 // 向后跳转
                 else if (eCount > this.nowIndex) {
                     this.elemList[eCount].style.zIndex =
-                        zIndexCount + this.n + 2;
-                    this.elemList[eCount].style.transition = "transform 0.6s ";
+                        parseInt(this.elemList[this.nowIndex].style.zIndex) + 1;
+                    this.elemList[eCount].style.transition = "transform 0.5s ";
                     this.elemList[this.nowIndex].style.transition =
-                        "transform 0.6s";
+                        "transform 0.5s";
                     this.elemList[eCount].style.transform = "translateX(0)";
                     this.elemList[this.nowIndex].style.transform =
                         "translateX(-495px)";
@@ -272,12 +245,16 @@ export default {
                         this.elemList[bu].style.transition = "none";
                         this.elemList[bu].style.transform = "translateX(459px)";
                         // 解决跳过后导致一部分图片没有回到正确位置
-                    }, 300);
+                    }, 500);
                 }
             }
             this.lunbo();
-            ///===============================================
-        },
+        }, 200),
+        // changeIndex(target) {
+        //     throttle(function () {
+        //
+        //     }, 3000);
+        // },
         pauseLunbo() {
             clearInterval(this.timer);
             this.$refs.more.style.opacity = 1;

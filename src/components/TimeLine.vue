@@ -2,68 +2,77 @@
     <div class="time-line warp">
         <div class="left-report-box">
             <div class="g-title content-title">
-                <slot name="columnIcon"></slot>
-                <p><slot name="columnName"></slot></p>
-                <div class="time" ref="time">
-                    <div
-                        class="recent"
-                        :class="{ 'on-day': 0 == checked }"
-                        @click="change"
-                    >
-                        最近
-                    </div>
-                    <div
-                        class="mon"
-                        :class="{ 'on-day': 1 == checked }"
-                        @click="change"
-                    >
-                        星期一
-                    </div>
-                    <div
-                        class="tues"
-                        :class="{ 'on-day': 2 == checked }"
-                        @click="change"
-                    >
-                        星期二
-                    </div>
-                    <div
-                        class="wed"
-                        :class="{ 'on-day': 3 == checked }"
-                        @click="change"
-                    >
-                        星期三
-                    </div>
-                    <div
-                        class="thur"
-                        :class="{ 'on-day': 4 == checked }"
-                        @click="change"
-                    >
-                        星期四
-                    </div>
-                    <div
-                        class="fri"
-                        :class="{ 'on-day': 5 == checked }"
-                        @click="change"
-                    >
-                        星期五
-                    </div>
-                    <div
-                        class="sat"
-                        :class="{ 'on-day': 6 == checked }"
-                        @click="change"
-                    >
-                        星期六
-                    </div>
-                    <div
-                        class="sun"
-                        :class="{ 'on-day': 7 == checked }"
-                        @click="change"
-                    >
-                        星期日
+                <div class="titel-left">
+                    <slot name="columnIcon"></slot>
+                    <p><slot name="columnName"></slot></p>
+                    <div class="time" ref="time">
+                        <div
+                            class="recent"
+                            :class="{ 'on-day': 0 == checked }"
+                            @click="change"
+                        >
+                            最近
+                        </div>
+                        <div
+                            class="mon"
+                            :class="{ 'on-day': 1 == checked }"
+                            @click="change"
+                        >
+                            周一
+                        </div>
+                        <div
+                            class="tues"
+                            :class="{ 'on-day': 2 == checked }"
+                            @click="change"
+                        >
+                            周二
+                        </div>
+                        <div
+                            class="wed"
+                            :class="{ 'on-day': 3 == checked }"
+                            @click="change"
+                        >
+                            周三
+                        </div>
+                        <div
+                            class="thur"
+                            :class="{ 'on-day': 4 == checked }"
+                            @click="change"
+                        >
+                            周四
+                        </div>
+                        <div
+                            class="fri"
+                            :class="{ 'on-day': 5 == checked }"
+                            @click="change"
+                        >
+                            周五
+                        </div>
+                        <div
+                            class="sat"
+                            :class="{ 'on-day': 6 == checked }"
+                            @click="change"
+                        >
+                            周六
+                        </div>
+                        <div
+                            class="sun"
+                            :class="{ 'on-day': 7 == checked }"
+                            @click="change"
+                        >
+                            周日
+                        </div>
                     </div>
                 </div>
+                <a
+                    class="timelineGrid"
+                    href="https://www.bilibili.com/guochuang/timeline/?spm_id_from=333.851.b_62696c695f7265706f72745f67756f636875616e67.2"
+                >
+                    <span>新番时间表</span>
+                    <i class="fa-solid fa-angle-right"></i>
+                </a>
             </div>
-            <div class="g-box">
+            <div class="g-box timeline-box">
                 <div class="tl-content-box">
                     <div
                         class="time-line-card"
@@ -266,7 +275,7 @@ export default {
 .on-day {
     border-bottom: 1px solid #00a1d6;
 }
-.left-report-box {
+.timeline-box {
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -274,10 +283,40 @@ export default {
     margin-bottom: 40px;
     display: flex;
     justify-content: space-between;
-    .g-title {
+    height: 456px;
+    .content-title {
+        position: relative;
         height: 36px;
         margin-bottom: 16px;
         display: flex;
+        justify-content: space-between;
+        .timelineGrid {
+            &:hover {
+                background-color: #00a1d6;
+                color: #fff;
+                transition: all 0.2s;
+            }
+            & i {
+                margin-top: 1px;
+                margin-left: 4px;
+            }
+            span {
+                height: 14px;
+                line-height: 14px;
+            }
+            display: flex;
+            align-items: center;
+            width: 112px;
+            box-sizing: border-box;
+            padding-left: 14px;
+            height: 30px;
+            border: 1px solid #00a1d6;
+            border-radius: 2px;
+            text-align: center;
+            transition: all 0.2s;
+            font-size: 14px;
+            color: #00a1d6;
+        }
         .time {
             margin-left: 4px;
             & div {

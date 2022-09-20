@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <FirstScreen>
-            <template slot="title-name">前方高能</template>
-        </FirstScreen>
-        <h1>动画</h1>
+    <div class="animation">
+        <img src="../assets/constructing.jpeg" alt="" />
+        <p>动画分区，正在施工中……</p>
     </div>
 </template>
 
@@ -15,5 +13,18 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img {
+        width: 400px;
+        height: 400px;
+    }
+    p {
+        font-size: 20px;
+    }
+}
 </style>

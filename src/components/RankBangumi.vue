@@ -1,12 +1,5 @@
 <template>
-    <div class="ranking">
-        <!-- <header>
-            <span>排行榜</span>
-            <a class="active-sliver">
-                更多
-                <i class="fa-solid fa-angle-right"></i>
-            </a>
-        </header> -->
+    <div class="time-rank">
         <div v-for="(v, index) in recomVideoList" :key="v.id" class="rank">
             <div class="rank-count">{{ index + 1 }}</div>
             <a :href="v.address" class="rank-a active-blue">
@@ -91,39 +84,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.ranking {
-    // header {
-    //     display: flex;
-    //     margin-bottom: 16px;
-    //     height: 36px;
-    //     justify-content: space-between;
-    //     align-items: center;
-    //     span {
-    //         font-size: 20px;
-    //         color: #212121;
-    //         line-height: 28px;
-    //     }
-    //     a {
-    //         width: 58px;
-    //         height: 22px;
-    //         border: 1px solid silver;
-    //         border-radius: 2px;
-    //         box-sizing: border-box;
-    //         padding-left: 12px;
-    //         display: flex;
-    //         align-items: center;
-    //         line-height: 16px;
-    //         cursor: pointer;
-    //         //取消文字选择
-    //         & i {
-    //             display: block;
-    //             height: 16px;
-    //             width: 16px;
-    //             line-height: 16px;
-    //             text-align: center;
-    //         }
-    //     }
-    // }
+.time-rank {
     .rank {
         display: flex;
         justify-content: space-between;

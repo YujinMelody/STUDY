@@ -6,35 +6,30 @@
             </div>
             <div class="rcmd-box-warp">
                 <div class="rcmd-box">
-                    <div class="video-card rcmd-card">
+                    <div
+                        class="video-card rcmd-card"
+                        v-for="item in recomList.list"
+                        :key="item.id"
+                        :style="{ backgroundColor: `${item.img}` }"
+                    >
                         <div class="rcmd-info">
                             <p>
-                                这是视频的标题!这是视频的标题! 这是视频的标题!
-                                这是视频的标题!
+                                {{ item.title }}
                             </p>
                             <div class="up-info">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-UPzhu"></use>
                                 </svg>
-                                <p>up主</p>
+                                <p>{{ item.up }}</p>
                             </div>
-                            <p class="play">2.2万播放</p>
+                            <p class="play">{{ item.play }}播放</p>
                         </div>
                     </div>
-                    <div class="video-card"></div>
-                    <div class="video-card"></div>
-                    <div class="video-card"></div>
-                    <div class="video-card"></div>
-                    <div class="video-card"></div>
-                    <div class="video-card"></div>
-                    <div class="video-card"></div>
-                    <div class="video-card"></div>
-                    <div class="video-card"></div>
-                    <div class="change-btn">
-                        <i class="fa-solid fa-rotate"></i>
-                        <span>换一换</span>
-                    </div>
                 </div>
+            </div>
+            <div class="change-btn" @click="getRecomNew">
+                <i class="fa-solid fa-rotate"></i>
+                <span>换一换</span>
             </div>
         </div>
         <div class="up-report">
@@ -99,6 +94,82 @@
                             沙一丁
                         </a>
                     </div>
+                    <div class="ex-video-card">
+                        <div class="pic-card">
+                            <a
+                                href="https://www.bilibili.com/video/BV1Zd4y1d7gH"
+                                target="_blank"
+                            >
+                                <img src="../assets/extension/ex6.jpg" alt="" />
+                                <p>你的体育老师是这样的吗？</p>
+                            </a>
+                            <div class="watch-later"></div>
+                        </div>
+                        <a href="" class="ex-up-info">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-UPzhu"></use>
+                            </svg>
+                            徒手健身-可乐
+                        </a>
+                    </div>
+                    <div class="ex-video-card">
+                        <div class="pic-card">
+                            <a
+                                href="https://www.bilibili.com/video/BV1Zd4y1d7gH"
+                                target="_blank"
+                            >
+                                <img src="../assets/extension/ex5.jpg" alt="" />
+                                <p>
+                                    在清华大学迎新晚会跳BlackPink新歌是什么体验
+                                </p>
+                            </a>
+                            <div class="watch-later"></div>
+                        </div>
+                        <a href="" class="ex-up-info">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-UPzhu"></use>
+                            </svg>
+                            仙贝Mina
+                        </a>
+                    </div>
+                    <div class="ex-video-card">
+                        <div class="pic-card">
+                            <a
+                                href="https://www.bilibili.com/video/BV1Zd4y1d7gH"
+                                target="_blank"
+                            >
+                                <img src="../assets/extension/ex4.jpg" alt="" />
+                                <p>
+                                    大学军训操场惊现迈克尔杰克逊！现场燃炸啦！！！
+                                </p>
+                            </a>
+                            <div class="watch-later"></div>
+                        </div>
+                        <a href="" class="ex-up-info">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-UPzhu"></use>
+                            </svg>
+                            迈克尔杰克逊帽子
+                        </a>
+                    </div>
+                    <div class="ex-video-card">
+                        <div class="pic-card">
+                            <a
+                                href="https://www.bilibili.com/video/BV1Zd4y1d7gH"
+                                target="_blank"
+                            >
+                                <img src="../assets/extension/ex3.jpg" alt="" />
+                                <p>大家好，我是郭柯宇，也是苏蓉，我来B站啦！</p>
+                            </a>
+                            <div class="watch-later"></div>
+                        </div>
+                        <a href="" class="ex-up-info">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-UPzhu"></use>
+                            </svg>
+                            演员郭柯宇
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="right-report-box">
@@ -126,17 +197,79 @@
 
 <script>
 import Lunbo from "@/components/Lunbo.vue";
+import axios from "axios";
 export default {
     name: "FirstScreen",
     components: {
         Lunbo,
     },
     props: ["lunboData"],
+    data() {
+        return {
+            recomList: {},
+        };
+    },
+    methods: {
+        getRecomNew() {
+            async function get() {
+                try {
+                    return await axios.get(
+                        "http://localhost:3000/gApi/recom/change"
+                    );
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+            get().then(
+                (value) => {
+                    this.$set(this.recomList, "list", value.data);
+                },
+                (reason) => {
+                    console.log(reason);
+                }
+            );
+        },
+    },
+    mounted() {
+        async function getRecom() {
+            try {
+                let x = await axios.get("http://localhost:3000/gApi/recom");
+                return x;
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        getRecom().then(
+            (value) => {
+                this.$set(this.recomList, "list", value.data);
+            },
+            (reason) => {
+                console.log(reason);
+            }
+        );
+    },
 };
 </script>
 
 <style lang="less" scoped>
+@media screen and (max-width: 1438px) {
+    .extension-box > div:nth-child(n + 5) {
+        display: none !important;
+    }
+}
+@media screen and (max-width: 1870px) {
+    .extension-box > div:nth-child(n + 6) {
+        display: none !important;
+    }
+}
+@media screen and (max-width: 1645px) {
+    .extension-box > div:nth-child(n + 5) {
+        display: none !important;
+    }
+}
+
 .home-first-screen {
+    position: relative;
     .first-screen {
         width: 100%;
         display: flex;
@@ -153,12 +286,14 @@ export default {
                 position: relative;
                 width: 1070px;
                 height: 242px;
-                background-color: #212121;
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-between;
                 align-content: space-between;
                 cursor: pointer;
+                .play {
+                    color: #fff;
+                }
 
                 .change-btn {
                     position: absolute;
@@ -203,7 +338,10 @@ export default {
                     top: 64px;
                     width: 100%;
                     box-sizing: border-box;
-                    background-color: #f3cb85;
+                    background-image: linear-gradient(
+                        rgba(3, 3, 3, 0),
+                        rgba(0, 0, 0, 0.8)
+                    );
 
                     & p:first-child {
                         font-size: 14px;
@@ -220,10 +358,12 @@ export default {
                         display: flex;
                         margin-bottom: 3px;
                         align-items: center;
+                        color: #fff;
 
                         & svg {
                             margin-right: 3px;
                             font-size: 12px;
+                            color: #fff;
                         }
                     }
 
@@ -239,7 +379,11 @@ export default {
                 .rcmd-card:hover .rcmd-info {
                     top: 0;
                     z-index: 2;
-                    transition: top 0.2s;
+                    background-image: linear-gradient(
+                        rgba(0, 0, 0, 0.7),
+                        rgba(0, 0, 0, 0.7)
+                    );
+                    transition: all 0.2s;
                 }
 
                 .rcmd-card:hover .rcmd-info p:first-child {
@@ -249,6 +393,40 @@ export default {
                     // 取消省略
                 }
             }
+        }
+        .change-btn {
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            right: -36px;
+            width: 28px;
+            height: 77px;
+            border: 1px solid silver;
+            border-radius: 2px;
+            color: #505050;
+            display: -ms-flexbox;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 7px;
+            line-height: 14px;
+            cursor: pointer;
+            i {
+                font-size: 14px;
+                margin-bottom: 4px;
+                transition: all 0.5s;
+            }
+
+            span {
+                display: inline-block;
+                font-size: 12px;
+                line-height: 14px;
+                width: 12px;
+            }
+        }
+        .change-btn:hover i {
+            transform: rotate(1turn);
+            transition: all 0.5s;
         }
     }
 

@@ -1,9 +1,18 @@
 <template>
-    <div id="app">
-        <InternationalHeader></InternationalHeader>
+    <div id="app" ref="app">
+        <InternationalHeader
+            :loginFire="loginFire"
+            :user="user"
+        ></InternationalHeader>
         <!-- <FirstScreen></FirstScreen> -->
         <router-view></router-view>
         <InternationalFooter></InternationalFooter>
+        <Elevator ref="elevator"></Elevator>
+        <Login
+            v-if="loginState"
+            :loginFire="loginFire"
+            :acceptUserInfo="acceptUserInfo"
+        ></Login>
     </div>
 </template>
 
@@ -11,13 +20,67 @@
 import InternationalHeader from "@/components/InternationalHeader.vue";
 import InternationalFooter from "@/components/InternationalFooter.vue";
 import FirstScreen from "@/components/FirstScreen.vue";
-import common from "@/common";
+import Elevator from "@/components/elevator.vue";
+import Login from "@/components/login.vue";
+import axios from "axios";
+import store from "@/store/index";
 export default {
     name: "App",
+    store,
+    data() {
+        return {
+            loginState: false,
+            user: { userinfo: { follows: [], myBlog: [], fans: [] } },
+        };
+    },
     components: {
         InternationalHeader,
         InternationalFooter,
         FirstScreen,
+        Elevator,
+        Login,
+    },
+    methods: {
+        loginFire() {
+            this.loginState = !this.loginState;
+        },
+        acceptUserInfo(data) {
+            this.$set(this.user, "userinfo", data);
+        },
+    },
+    mounted() {
+        async function checkToken(data, token) {
+            try {
+                let x = await axios.post(
+                    "http://localhost:3000/api/login/checkToken",
+                    data,
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+                return x;
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        if (localStorage.getItem("token")) {
+            let token = localStorage.getItem("token");
+            let data = {
+                user: localStorage.getItem("user"),
+            };
+            checkToken.call(this, data, token).then(
+                (value) => {
+                    if (value.data.username == localStorage.getItem("user")) {
+                        alert("Token验证成功");
+                        this.$store.commit("changeLogin");
+                        this.$set(this.user, "userinfo", value.data);
+                    }
+                },
+                (reason) => {
+                    console.log(reason);
+                }
+            );
+        }
     },
 };
 </script>
@@ -45,8 +108,12 @@ export default {
         height: 242px;
     }
 
+    .g-box > div:nth-child(n + 11) {
+        display: none !important;
+    }
+
     .video-card:nth-child(n + 9) {
-        display: none;
+        display: none !important;
     }
 
     .left-report-box {
@@ -69,7 +136,11 @@ export default {
     }
 
     .video-card:nth-child(n + 7) {
-        display: none;
+        display: none !important;
+    }
+
+    .g-box > div:nth-child(n + 9) {
+        display: none !important;
     }
 
     .left-report-box {
@@ -126,6 +197,9 @@ export default {
     .rcmd-info {
         padding: 8px 10px 10px !important;
     }
+    .ranking .rank:nth-child(n + 9) {
+        display: none !important;
+    }
     .rank-a,
     .rank-video-card {
         width: 235px !important;
@@ -135,6 +209,9 @@ export default {
             width: 265px !important;
             height: 274px !important;
         }
+    }
+    .time-line {
+        height: 412px !important;
     }
     .time-line-card {
         width: 210px !important;
@@ -253,10 +330,14 @@ a {
 
 .ex-up-info {
     display: flex;
-    margin-top: 60px;
     line-height: 16px;
+    margin-top: 56px;
     color: #999;
-
+    align-items: center;
+    & svg {
+        margin-right: 4px;
+        vertical-align: center;
+    }
     & i {
         font-size: 16px;
         margin-right: 4px;

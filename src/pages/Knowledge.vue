@@ -1,12 +1,30 @@
 <template>
-    <div>知识</div>
+    <div class="knowledge">
+        <img src="../assets/constructing.jpeg" alt="" />
+        <p>知识分区，正在施工中……</p>
+    </div>
 </template>
 
 <script>
+import FirstScreen from "@/components/FirstScreen.vue";
 export default {
     name: "Knowledge",
+    components: { FirstScreen },
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.knowledge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img {
+        width: 400px;
+        height: 400px;
+    }
+    p {
+        font-size: 20px;
+    }
+}
 </style>
