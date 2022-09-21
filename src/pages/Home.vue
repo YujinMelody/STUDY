@@ -493,7 +493,7 @@ import TimeLine from "@/components/TimeLine.vue";
 import Lunbo from "@/components/Lunbo.vue";
 import LiveRank from "@/components/LiveRank.vue";
 import BangumiLunbo from "@/components/bangumiLunbo.vue";
-const axios = require("axios").default;
+import myAxios from "@/http/index";
 export default {
     name: "Home",
     components: {
@@ -581,22 +581,14 @@ export default {
     mounted() {
         async function timeline(target, p) {
             try {
-                let x = await axios.get(target);
+                let x = await myAxios.get(target);
                 this.$set(this.timelineData, p, x.data);
             } catch (error) {
                 console.log(error);
             }
         }
-        timeline.call(
-            this,
-            "http://localhost:3000/gApi/bangumiTimeline",
-            "bangumi"
-        );
-        timeline.call(
-            this,
-            "http://localhost:3000/gApi/guochuangTimeline",
-            "guochuang"
-        );
+        timeline.call(this, "/gApi/bangumiTimeline", "bangumi");
+        timeline.call(this, "/gApi/guochuangTimeline", "guochuang");
     },
 };
 </script>

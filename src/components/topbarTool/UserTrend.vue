@@ -45,7 +45,7 @@
 
 <script>
 import common from "@/common";
-import axios from "axios";
+import myAxios from "@/http/index";
 export default {
     name: "UserTrends",
     data() {
@@ -58,8 +58,8 @@ export default {
         changeTab(event) {
             let token = localStorage.getItem("token");
             async function getVideoList(path) {
-                return await axios.post(
-                    "http://localhost:3000/api/trends/" + `${path}`,
+                return await myAxios.post(
+                    "/api/trends/" + `${path}`,
                     {
                         username: localStorage.getItem("user"),
                     },
@@ -307,8 +307,8 @@ export default {
     mounted() {
         let token = localStorage.getItem("token");
         async function getVideoList(path) {
-            return await axios.post(
-                "http://localhost:3000/api/trends/" + `${path}`,
+            return await myAxios.post(
+                "/api/trends/" + `${path}`,
                 {
                     username: localStorage.getItem("user"),
                 },

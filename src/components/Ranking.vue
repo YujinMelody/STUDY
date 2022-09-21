@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import myAxios from "@/http/index";
 export default {
     name: "Ranking",
     data() {
@@ -39,7 +39,7 @@ export default {
     mounted() {
         async function getRank(callback) {
             try {
-                let x = await axios.get("http://localhost:3000/gApi/rank");
+                let x = await myAxios.get("/gApi/rank");
                 setTimeout(() => {
                     callback(x);
                 });

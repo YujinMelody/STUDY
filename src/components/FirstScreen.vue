@@ -197,7 +197,7 @@
 
 <script>
 import Lunbo from "@/components/Lunbo.vue";
-import axios from "axios";
+import myAxios from "@/http/index";
 export default {
     name: "FirstScreen",
     components: {
@@ -213,8 +213,8 @@ export default {
         getRecomNew() {
             async function get() {
                 try {
-                    return await axios.get(
-                        "http://localhost:3000/gApi/recom/change"
+                    return await myAxios.get(
+                        "/gApi/recom/change"
                     );
                 } catch (err) {
                     console.log(err);
@@ -233,7 +233,7 @@ export default {
     mounted() {
         async function getRecom() {
             try {
-                let x = await axios.get("http://localhost:3000/gApi/recom");
+                let x = await myAxios.get("/gApi/recom");
                 return x;
             } catch (err) {
                 console.log(err);

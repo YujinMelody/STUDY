@@ -1,5 +1,5 @@
 const serverConfig = {
-    baseURL: "http://localhost:3000",
+    baseURL: "http://119.23.243.9:3000",
     useTokenAuthorization: true,
 }
 export default serverConfig;

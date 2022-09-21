@@ -284,7 +284,7 @@
                             :loginFire="loginFire"
                             v-show="!loginState"
                         ></BefLoginTip>
-                        <div ref="userTrend" v-show="loginState">
+                        <div ref="userTrend" v-if="loginState">
                             <UserTrends v-if="trendState"></UserTrends>
                         </div>
                     </div>
@@ -302,7 +302,7 @@
                             :loginFire="loginFire"
                             v-show="!loginState"
                         ></BefLoginTip>
-                        <div ref="userCollection" v-show="loginState">
+                        <div ref="userCollection" v-if="loginState">
                             <UserCollection
                                 v-if="collectionState"
                             ></UserCollection>
@@ -322,7 +322,7 @@
                             :loginFire="loginFire"
                             v-show="!loginState"
                         ></BefLoginTip>
-                        <div ref="userHistory" v-show="loginState">
+                        <div ref="userHistory" v-if="loginState">
                             <UserHistory v-if="historyState"></UserHistory>
                         </div>
                     </div>

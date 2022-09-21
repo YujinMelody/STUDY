@@ -104,7 +104,7 @@
 import { mapState } from "vuex";
 import throttle from "lodash/throttle";
 import common from "@/common.js";
-import axios from "axios";
+import myAxios from "@/http/index";
 export default {
     name: "LiveRank",
     props: ["lunboData"],
@@ -143,8 +143,8 @@ export default {
     methods: {
         async getVideoList(path) {
             let token = localStorage.getItem("token");
-            return await axios.post(
-                "http://localhost:3000/api/trends/" + `${path}`,
+            return await myAxios.post(
+                "/api/trends/" + `${path}`,
                 {
                     username: localStorage.getItem("user"),
                 },
@@ -154,7 +154,7 @@ export default {
             );
         },
         async getRank() {
-            return await axios.get("http://localhost:3000/gApi/liveRank");
+            return await myAxios.get("/gApi/liveRank");
         },
         changeTab(i) {
             if (i != this.tabState) {

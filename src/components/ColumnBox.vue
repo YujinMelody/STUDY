@@ -41,8 +41,8 @@
 
 <script>
 import VideoCardG from "@/components/VideoCardG.vue";
-import axios from "axios";
-axios.defaults.timeout = 1000;
+import myAxios from "@/http/index";
+// myAxios.defaults.timeout = 1000;
 export default {
     name: "ColumnBox",
     components: {
@@ -58,8 +58,8 @@ export default {
     },
     methods: {
         change() {
-            axios
-                .get(`http://localhost:3000/gApi/change/${this.changeInfo}`)
+            myAxios
+                .get(`/gApi/change/${this.changeInfo}`)
                 .then(
                     (value) => {
                         this.$set(this.videoList, "video", value.data);
@@ -73,8 +73,8 @@ export default {
     mounted() {
         async function first() {
             try {
-                let x = await axios.get(
-                    `http://localhost:3000/gApi/first/${this.changeInfo}`
+                let x = await myAxios.get(
+                    `/gApi/first/${this.changeInfo}`
                 );
                 this.$set(this.videoList, "video", x.data);
             } catch (error) {

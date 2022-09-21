@@ -22,7 +22,7 @@ import InternationalFooter from "@/components/InternationalFooter.vue";
 import FirstScreen from "@/components/FirstScreen.vue";
 import Elevator from "@/components/elevator.vue";
 import Login from "@/components/login.vue";
-import axios from "axios";
+import myAxios from "@/http/index";
 import store from "@/store/index";
 export default {
     name: "App",
@@ -51,13 +51,9 @@ export default {
     mounted() {
         async function checkToken(data, token) {
             try {
-                let x = await axios.post(
-                    "http://localhost:3000/api/login/checkToken",
-                    data,
-                    {
-                        headers: { Authorization: `Bearer ${token}` },
-                    }
-                );
+                let x = await myAxios.post("/api/login/checkToken", data, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
                 return x;
             } catch (err) {
                 console.log(err);

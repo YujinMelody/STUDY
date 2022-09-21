@@ -232,7 +232,7 @@
 
 <script>
 import common from "@/common";
-import axios from "axios";
+import myAxios from "@/http/index";
 import store from "@/store/index";
 export default {
     name: "Login",
@@ -324,10 +324,7 @@ export default {
             };
             async function messageLogin(d) {
                 try {
-                    let x = await axios.post(
-                        "http://localhost:3000/api/login/message",
-                        d
-                    );
+                    let x = await myAxios.post("/api/login/message", d);
                     setTimeout(() => {
                         if (x.data.msg) {
                             this.acceptUserInfo(x.data.userinfo);
@@ -363,10 +360,7 @@ export default {
                 checkNum: x,
             };
             async function checkNum(data) {
-                let pro = await axios.post(
-                    "http://localhost:3000/api/login/checkNum",
-                    data
-                );
+                let pro = await myAxios.post("/api/login/checkNum", data);
                 console.log(pro.data);
             }
             checkNum(d);
@@ -383,10 +377,7 @@ export default {
                 pw: this.pw,
             };
             async function login() {
-                let x = await axios.post(
-                    "http://localhost:3000/api/login/pw",
-                    data
-                );
+                let x = await myAxios.post("/api/login/pw", data);
                 return x;
             }
             login().then(

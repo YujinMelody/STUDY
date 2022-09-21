@@ -61,7 +61,7 @@
 
 <script>
 import common from "@/common";
-import axios from "axios";
+import myAxios from "@/http/index"
 export default {
     name: "UserCollection",
     data() {
@@ -88,8 +88,8 @@ export default {
         changeTab(event) {
             let token = localStorage.getItem("token");
             async function getCollection() {
-                return await axios.post(
-                    "http://localhost:3000/api/collections",
+                return await myAxios.post(
+                    "/api/collections",
                     {
                         username: localStorage.getItem("user"),
                     },
@@ -245,8 +245,8 @@ export default {
     mounted() {
         let token = localStorage.getItem("token");
         async function getCollection() {
-            return await axios.post(
-                "http://localhost:3000/api/collections",
+            return await myAxios.post(
+                "/api/collections",
                 {
                     username: localStorage.getItem("user"),
                 },
